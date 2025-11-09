@@ -60,6 +60,22 @@ export const SignInView = () => {
 
   const isDisabled = form.formState.isSubmitting || !!error;
 
+  const loginAsGithub = () => {
+    authClient.signIn.social(
+      {
+        provider: 'github',
+      },
+      {
+        onSuccess: () => {
+          router.push('/');
+        },
+        onError: ({ error }) => {
+          setError(error.message);
+        }
+      }
+    );
+  };
+
   return (
     <div className="flex flex-col gap-6">
       <Card className="overflow-hidden p-0">
@@ -139,7 +155,7 @@ export const SignInView = () => {
                   <Button variant="outline" className="w-full">
                     Google
                   </Button>
-                  <Button variant="outline" className="w-full">
+                  <Button variant="outline" className="w-full" onClick={loginAsGithub}>
                     Github
                   </Button>
                 </div>

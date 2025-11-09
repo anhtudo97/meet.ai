@@ -20,13 +20,14 @@ export const getAuth = async () => {
     baseURL: process.env.BETTER_AUTH_URL,
     emailAndPassword: {
       enabled: true,
-      disableSignUp: false,
-      requireEmailVerification: false,
-      minPasswordLength: 8,
-      maxPasswordLength: 128,
-      autoSignIn: true,
     },
     plugins: [nextCookies()],
+    socialProviders: {
+      github: {
+        clientId: process.env.GITHUB_CLIENT_ID as string,
+        clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+      },
+    },
   });
 
   return authInstance;

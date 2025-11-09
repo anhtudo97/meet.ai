@@ -59,14 +59,25 @@ export const SignUpView = () => {
         }
       }
     );
-    try {
-      // Handle sign-up logic here
-    } catch {
-      setError("Sign up failed");
-    }
   };
 
-  const isDisabled = form.formState.isSubmitting || !!error;
+  const isDisabled = !form.formState.isValid;
+
+  const loginAsGithub = () => {
+    authClient.signIn.social(
+      {
+        provider: 'github',
+      },
+      {
+        onSuccess: () => {
+          router.push('/');
+        },
+        onError: ({ error }) => {
+          setError(error.message);
+        }
+      }
+    );
+  };
 
   return (
     <div className="flex flex-col gap-6">
@@ -174,12 +185,12 @@ export const SignUpView = () => {
                 {!!error && (
                   <Alert className="bg-destructive/10 border-none">
                     <OctagonAlertIcon className="size-4 text-destructive" />
-                    <AlertTitle className="text-destructive">Login failed</AlertTitle>
+                    <AlertTitle className="text-destructive">{error}</AlertTitle>
                   </Alert>
                 )}
 
                 <Button disabled={isDisabled} type="submit" className="w-full">
-                  Sign In
+                  Sign Up
                 </Button>
                 <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
                   <span className="bg-card text-muted-foreground relative z-10 px-2">
@@ -191,7 +202,7 @@ export const SignUpView = () => {
                   <Button variant="outline" className="w-full">
                     Google
                   </Button>
-                  <Button variant="outline" className="w-full">
+                  <Button variant="outline" className="w-full" onClick={loginAsGithub}>
                     Github
                   </Button>
                 </div>
