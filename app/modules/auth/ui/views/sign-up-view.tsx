@@ -16,11 +16,16 @@ import { useForm } from "react-hook-form";
 import z from "zod";
 
 const formSchema = z.object({
+  name: z.string().min(1, "Name is required"),
   email: z.email("Invalid email address"),
   password: z.string().min(1, "Password is required"),
+  confirmPassword: z.string().min(1, "Confirm Password is required"),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords do not match",
+  path: ["confirmPassword"],
 });
 
-export const SignInView = () => {
+export const SignUpView = () => {
 
   const router = useRouter();
   const [error, setError] = useState<string | null>();
@@ -28,8 +33,10 @@ export const SignInView = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      name: '',
       email: '',
       password: '',
+      confirmPassword: '',
     },
   });
 
@@ -37,8 +44,9 @@ export const SignInView = () => {
 
     setError(null);
 
-    authClient.signIn.email(
+    authClient.signUp.email(
       {
+        name: data.name,
         email: data.email,
         password: data.password,
       },
@@ -52,9 +60,9 @@ export const SignInView = () => {
       }
     );
     try {
-      // Handle sign-in logic here
+      // Handle sign-up logic here
     } catch {
-      setError("Login failed");
+      setError("Sign up failed");
     }
   };
 
@@ -69,11 +77,33 @@ export const SignInView = () => {
               <div className="flex flex-col gap-6">
                 <div className="flex flex-col items-center text-center">
                   <h1 className="text-2xl font-bold">
-                    Welcome back
+                    Let&apos;s get started
                   </h1>
                   <p className="text-muted from-foreground text-balance">
-                    Login to your account to continue
+                    Create an account to continue
                   </p>
+                </div>
+
+                {/* Name field */}
+                <div className="grid gap-3">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col gap-2">
+                        <FormLabel htmlFor="name" className="font-medium">Name</FormLabel>
+                        <FormControl>
+                          <Input
+                            id="name"
+                            type="text"
+                            placeholder="Alex Douglas"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
 
                 {/* Email field */}
@@ -119,6 +149,28 @@ export const SignInView = () => {
                     )}
                   />
                 </div>
+
+                {/* Confirm Password field */}
+                <div className="grid gap-3">
+                  <FormField
+                    control={form.control}
+                    name="confirmPassword"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col gap-2">
+                        <FormLabel htmlFor="confirmPassword" className="font-medium">Confirm Password</FormLabel>
+                        <FormControl>
+                          <Input
+                            id="confirmPassword"
+                            type="password"
+                            placeholder="********"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
                 {!!error && (
                   <Alert className="bg-destructive/10 border-none">
                     <OctagonAlertIcon className="size-4 text-destructive" />
@@ -144,9 +196,9 @@ export const SignInView = () => {
                   </Button>
                 </div>
                 <div className="text-center text-sm">
-                  Don&apos;t have an account?{' '}
-                  <Link href="/sign-up" className="underline underline-offset-4">
-                    Sign Up
+                  Already have an account?{' '}
+                  <Link href="/sign-in" className="underline underline-offset-4">
+                    Sign In
                   </Link>
                 </div>
               </div>
