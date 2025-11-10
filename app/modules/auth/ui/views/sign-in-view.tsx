@@ -10,7 +10,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { OctagonAlertIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
@@ -21,8 +20,6 @@ const formSchema = z.object({
 });
 
 export const SignInView = () => {
-
-  const router = useRouter();
   const [error, setError] = useState<string | null>();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -41,33 +38,32 @@ export const SignInView = () => {
       {
         email: data.email,
         password: data.password,
+        callbackURL: '/',
       },
       {
         onSuccess: () => {
-          router.push('/');
+          setError(null);
         },
         onError: ({ error }) => {
           setError(error.message);
         }
       }
     );
-    try {
-      // Handle sign-in logic here
-    } catch {
-      setError("Login failed");
-    }
   };
 
-  const isDisabled = form.formState.isSubmitting || !!error;
+  const isDisabled = !form.formState.isValid;
 
-  const loginAsGithub = () => {
+  const loginSocial = (provider: 'google' | 'github') => {
+    setError(null);
+
     authClient.signIn.social(
       {
-        provider: 'github',
+        provider,
+        callbackURL: '/',
       },
       {
         onSuccess: () => {
-          router.push('/');
+          setError(null);
         },
         onError: ({ error }) => {
           setError(error.message);
@@ -75,6 +71,8 @@ export const SignInView = () => {
       }
     );
   };
+
+
 
   return (
     <div className="flex flex-col gap-6">
@@ -152,10 +150,10 @@ export const SignInView = () => {
                 </div>
                 <div className="grid-cols-2 grid gap-4">
                   {/* Social login buttons can go here */}
-                  <Button variant="outline" className="w-full">
+                  <Button variant="outline" className="w-full" onClick={() => loginSocial('google')}>
                     Google
                   </Button>
-                  <Button variant="outline" className="w-full" onClick={loginAsGithub}>
+                  <Button variant="outline" className="w-full" onClick={() => loginSocial('github')}>
                     Github
                   </Button>
                 </div>
