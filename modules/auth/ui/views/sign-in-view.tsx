@@ -10,8 +10,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { OctagonAlertIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { FaGithub, FaGoogle } from "react-icons/fa";
 import z from "zod";
 
 const formSchema = z.object({
@@ -20,6 +22,7 @@ const formSchema = z.object({
 });
 
 export const SignInView = () => {
+  const router = useRouter();
   const [error, setError] = useState<string | null>();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -43,6 +46,7 @@ export const SignInView = () => {
       {
         onSuccess: () => {
           setError(null);
+          router.push('/');
         },
         onError: ({ error }) => {
           setError(error.message);
@@ -151,10 +155,10 @@ export const SignInView = () => {
                 <div className="grid-cols-2 grid gap-4">
                   {/* Social login buttons can go here */}
                   <Button variant="outline" className="w-full" onClick={() => loginSocial('google')}>
-                    Google
+                    <FaGoogle />
                   </Button>
                   <Button variant="outline" className="w-full" onClick={() => loginSocial('github')}>
-                    Github
+                    <FaGithub />
                   </Button>
                 </div>
                 <div className="text-center text-sm">
