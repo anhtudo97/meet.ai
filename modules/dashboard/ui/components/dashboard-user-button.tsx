@@ -1,9 +1,8 @@
 import GeneratedAvatar from '@/components/generated-avatar';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
-import { DropdownMenuContent } from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { authClient } from '@/lib/auth-client';
-import { DropdownMenu, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
-import { ChevronDownIcon, CreditCardIcon } from 'lucide-react';
+import { ChevronDownIcon, CreditCardIcon, LogOutIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 const DashboardUserButton = () => {
@@ -26,7 +25,7 @@ const DashboardUserButton = () => {
   }
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="rounded-lg border border-border/10 p-3 w-full flex items-center justify-between bg-white/5 hover:bg-white/10 duration-200 transition-colors overflow-hidden">
+      <DropdownMenuTrigger className="rounded-lg border border-border/10 p-3 w-full flex items-center justify-between bg-white/5 hover:bg-white/10 duration-200 transition-colors overflow-hidden gap-x-2">
         {
           data.user.image ? (
             <Avatar>
@@ -42,6 +41,7 @@ const DashboardUserButton = () => {
         </div>
         <ChevronDownIcon className='size-4 shrink-0' />
       </DropdownMenuTrigger>
+
       <DropdownMenuContent align='end' side='right' className='w-72'>
         <DropdownMenuLabel>
           <div className='flex flex-col gap-1'>
@@ -56,7 +56,7 @@ const DashboardUserButton = () => {
         </DropdownMenuItem>
         <DropdownMenuItem onClick={logout} className='cursor-pointer flex items-center justify-between'>
           Logout
-          <CreditCardIcon className='size-4' />
+          <LogOutIcon className='size-4' />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
