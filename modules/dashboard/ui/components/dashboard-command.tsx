@@ -1,7 +1,6 @@
 "use client";
 
-import { CommandInput, CommandDialog, CommandList, CommandItem } from '@/components/ui/command';
-import { useSidebar } from '@/components/ui/sidebar';
+import { CommandDialog, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
 import { Dispatch, SetStateAction } from 'react';
 
 interface DashboardCommandProps {
