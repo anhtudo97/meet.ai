@@ -2083,6 +2083,33 @@
     postcss "^8.4.41"
     tailwindcss "4.1.16"
 
+"@tanstack/query-core@5.90.10":
+  version "5.90.10"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.90.10.tgz#2704b038277fb41e631f356e7428951b5354ed13"
+  integrity sha512-EhZVFu9rl7GfRNuJLJ3Y7wtbTnENsvzp+YpcAV7kCYiXni1v8qZh++lpw4ch4rrwC0u/EZRnBHIehzCGzwXDSQ==
+
+"@tanstack/react-query@^5.90.10":
+  version "5.90.10"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.90.10.tgz#dc2d4acbe1c06b708ccaeed43a26ad56bc5d1718"
+  integrity sha512-BKLss9Y8PQ9IUjPYQiv3/Zmlx92uxffUOX8ZZNoQlCIZBJPT5M+GOMQj7xislvVQ6l1BstBjcX0XB/aHfFYVNw==
+  dependencies:
+    "@tanstack/query-core" "5.90.10"
+
+"@trpc/client@^11.7.1":
+  version "11.7.1"
+  resolved "https://registry.yarnpkg.com/@trpc/client/-/client-11.7.1.tgz#eb0c423fd4c6419c40e07e7e4491f26d62ba54df"
+  integrity sha512-uOnAjElKI892/U6aQMcBHYs3x7mme3Cvv1F87ytBL56rBvs7+DyK7r43zgaXKf13+GtPEI6ex5xjVUfyDW8XcQ==
+
+"@trpc/server@^11.7.1":
+  version "11.7.1"
+  resolved "https://registry.yarnpkg.com/@trpc/server/-/server-11.7.1.tgz#ce7316dc2871a648b52578d9c7aad7471f4c870c"
+  integrity sha512-N3U8LNLIP4g9C7LJ/sLkjuPHwqlvE3bnspzC4DEFVdvx2+usbn70P80E3wj5cjOTLhmhRiwJCSXhlB+MHfGeCw==
+
+"@trpc/tanstack-react-query@^11.7.1":
+  version "11.7.1"
+  resolved "https://registry.yarnpkg.com/@trpc/tanstack-react-query/-/tanstack-react-query-11.7.1.tgz#aca1207c749f7b6dee8865d6689d39c3361d025c"
+  integrity sha512-qc7kz4NY7CCvCxLy5HGptfKd3e3yJnWmTd6/Gkr4IY8B73PNFmcHKvLWE4kzU7r+R72MfT57TXrCEJ7ErLSMtw==
+
 "@tybys/wasm-util@^0.10.0", "@tybys/wasm-util@^0.10.1":
   version "0.10.1"
   resolved "https://registry.yarnpkg.com/@tybys/wasm-util/-/wasm-util-0.10.1.tgz#ecddd3205cf1e2d5274649ff0eedd2991ed7f414"
@@ -2727,7 +2754,7 @@ class-variance-authority@^0.7.1:
   dependencies:
     clsx "^2.1.1"
 
-client-only@0.0.1:
+client-only@0.0.1, client-only@^0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/client-only/-/client-only-0.0.1.tgz#38bba5d403c41ab150bff64a95c85013cf73bca1"
   integrity sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==
@@ -5072,6 +5099,11 @@ semver@^7.6.0, semver@^7.7.1, semver@^7.7.2:
   version "7.7.3"
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.7.3.tgz#4b5f4143d007633a8dc671cd0a6ef9147b8bb946"
   integrity sha512-SdsKMrI9TdgjdweUSR9MweHA4EJ8YxHn8DFaDisvhVlUOe4BF1tLD7GAj0lIqWVl+dPb/rExr0Btby5loQm20Q==
+
+server-only@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/server-only/-/server-only-0.0.1.tgz#0f366bb6afb618c37c9255a314535dc412cd1c9e"
+  integrity sha512-qepMx2JxAa5jjfzxG79yPPq+8BuFToHd1hm7kI+Z4zAq1ftQiP7HcxMhDDItrbtwVeLg/cY2JnKnrcFkmiswNA==
 
 set-cookie-parser@^2.7.1:
   version "2.7.2"
