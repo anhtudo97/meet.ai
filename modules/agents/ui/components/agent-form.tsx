@@ -1,17 +1,16 @@
-import { useTRPC } from '@/trpc/client';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/router';
-import { AgentGetOne } from '../../types';
-import { useForm, useWatch } from 'react-hook-form';
-import z from 'zod';
-import { agentsInsertSchema } from '../../schema';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import GeneratedAvatar from '@/components/generated-avatar';
+import { Button } from '@/components/ui/button';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
+import { useTRPC } from '@/trpc/client';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useForm, useWatch } from 'react-hook-form';
 import { toast } from 'sonner';
+import z from 'zod';
+import { agentsInsertSchema } from '../../schema';
+import { AgentGetOne } from '../../types';
 
 interface AgentFormProps {
   onSuccess?: () => void;
@@ -21,7 +20,6 @@ interface AgentFormProps {
 
 export const AgentForm = ({ initialValues, onCancel, onSuccess }: AgentFormProps) => {
   const trpc = useTRPC();
-  const router = useRouter();
   const queryClient = useQueryClient();
 
   const createAgent = useMutation(
@@ -70,7 +68,7 @@ export const AgentForm = ({ initialValues, onCancel, onSuccess }: AgentFormProps
         <GeneratedAvatar
           seed={nameValue}
           variant="botttsNeutral"
-          className='border size-16'
+          className='size-16'
         />
         <FormField
           control={form.control}
