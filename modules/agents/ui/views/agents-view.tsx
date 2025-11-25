@@ -7,10 +7,12 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { columns } from "../components/columns";
 import { DataTable } from "../components/data-table";
 import EmptyState from "@/components/empry-state";
+import { useAgentsFilters } from "../../hooks/use-agents-filters";
 
 export const AgentsView = () => {
+  const [filters] = useAgentsFilters();
   const trpc = useTRPC();
-  const { data } = useSuspenseQuery(trpc.agents.getMany.queryOptions({}));
+  const { data } = useSuspenseQuery(trpc.agents.getMany.queryOptions({ ...filters }));
 
   return (
     <div className="flex-1 pb-4 px-4 md:px-8 flex flex-col gap-y-4">
