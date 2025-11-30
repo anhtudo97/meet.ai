@@ -1,15 +1,21 @@
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
-import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { ChevronRightIcon, MoreVerticalIcon, PencilIcon, TrashIcon } from 'lucide-react';
-import Link from 'next/link';
-import React from 'react';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbSeparator
+} from '@/components/ui/breadcrumb'
+import { Button } from '@/components/ui/button'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { ChevronRightIcon, MoreVerticalIcon, PencilIcon, TrashIcon } from 'lucide-react'
+import Link from 'next/link'
+import React from 'react'
 
 interface AgentsDetailViewHeaderProps {
-  agentId: string;
-  agentName: string;
-  onEdit: () => void;
-  onRemove: () => void;
+  agentId: string
+  agentName: string
+  onEdit: () => void
+  onRemove: () => void
 }
 
 export const AgentsDetailViewHeader = ({ agentId, agentName, onEdit, onRemove }: AgentsDetailViewHeaderProps) => {
@@ -19,9 +25,7 @@ export const AgentsDetailViewHeader = ({ agentId, agentName, onEdit, onRemove }:
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild className='font-medium text-xl'>
-              <Link href={`/agents`}>
-                My Agents
-              </Link>
+              <Link href={`/agents`}>My Agents</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator className='text-foreground text-xl font-medium [&>svg]:size-4'>
@@ -29,9 +33,7 @@ export const AgentsDetailViewHeader = ({ agentId, agentName, onEdit, onRemove }:
           </BreadcrumbSeparator>
           <BreadcrumbItem>
             <BreadcrumbLink asChild className='font-medium text-xl text-foreground'>
-              <Link href={`/agents/${agentId}`}>
-                {agentName}
-              </Link>
+              <Link href={`/agents/${agentId}`}>{agentName}</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
         </BreadcrumbList>
@@ -55,7 +57,6 @@ export const AgentsDetailViewHeader = ({ agentId, agentName, onEdit, onRemove }:
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-
     </div>
-  );
-};
+  )
+}
