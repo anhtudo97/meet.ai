@@ -1,11 +1,12 @@
-import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, MIN_PAGE_SIZE } from './../../../constant';
+import { DEFAULT_PAGE } from "@/constant";
 import { db } from "@/db";
 import { agents } from "@/db/schema";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
+import { TRPCError } from '@trpc/server';
 import { and, count, desc, eq, getTableColumns, ilike, sql } from "drizzle-orm";
 import z from "zod";
 import { agentsInsertSchema } from "../schema";
-import { DEFAULT_PAGE } from "@/constant";
+import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, MIN_PAGE_SIZE } from './../../../constant';
 
 export const agentsRouter = createTRPCRouter({
   getMany: protectedProcedure
@@ -72,7 +73,18 @@ export const agentsRouter = createTRPCRouter({
         ...getTableColumns(agents),
       })
       .from(agents)
-      .where(eq(agents.id, input.id));
+      .where(
+        and(
+          eq(agents.id, input.id),
+          eq(agents.userId, ctx.auth.user.id)
+        ));
+
+    if (!existingAgent) {
+      throw new TRPCError({
+        code: 'NOT_FOUND',
+        message: `Agent with id ${input.id} not found`
+      });
+    }
     return existingAgent;
   }),
 
