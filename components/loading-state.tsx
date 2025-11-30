@@ -1,8 +1,8 @@
-import { Loader2Icon } from 'lucide-react';
+import { Loader2Icon } from 'lucide-react'
 
 interface LoadingStateProps {
-  title: string;
-  description: string;
+  title: string
+  description: string
 }
 
 const LoadingState = ({ description, title }: LoadingStateProps) => {
@@ -16,7 +16,7 @@ const LoadingState = ({ description, title }: LoadingStateProps) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default LoadingState;
+export default LoadingState

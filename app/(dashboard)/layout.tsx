@@ -1,7 +1,7 @@
-import { SidebarProvider } from '@/components/ui/sidebar';
-import { DashboardNavbar } from '@/modules/dashboard/ui/components/dashboard-navbar';
-import { DashboardSidebar } from '@/modules/dashboard/ui/components/dashboard-sidebar';
-import { PropsWithChildren } from 'react';
+import { SidebarProvider } from '@/components/ui/sidebar'
+import { DashboardNavbar } from '@/modules/dashboard/ui/components/dashboard-navbar'
+import { DashboardSidebar } from '@/modules/dashboard/ui/components/dashboard-sidebar'
+import { PropsWithChildren } from 'react'
 
 const Layout = ({ children }: PropsWithChildren) => {
   return (
@@ -12,7 +12,7 @@ const Layout = ({ children }: PropsWithChildren) => {
         {children}
       </main>
     </SidebarProvider>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout

@@ -1,8 +1,8 @@
-import { AlertCircleIcon } from 'lucide-react';
+import { AlertCircleIcon } from 'lucide-react'
 
 interface ErrorStateProps {
-  title: string;
-  description: string;
+  title: string
+  description: string
 }
 
 const ErrorState = ({ description, title }: ErrorStateProps) => {
@@ -16,7 +16,7 @@ const ErrorState = ({ description, title }: ErrorStateProps) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ErrorState;
+export default ErrorState
