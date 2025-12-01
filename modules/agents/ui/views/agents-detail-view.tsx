@@ -23,25 +23,21 @@ export const AgentsDetailView = ({ agentId }: AgentsDetailViewProps) => {
   const { data, isLoading, error } = useSuspenseQuery(trpc.agents.getOne.queryOptions({ id: agentId }));
 
   const removeAgent = useMutation(
-    trpc.agents.remove.mutationOptions(
-      {
-        onSuccess: async () => {
-          await queryClient.invalidateQueries(trpc.agents.getMany.queryOptions({}));
-          router.push('/agents');
-        },
-        onError: (error) => {
-          toast.error(`Failed to remove agent: ${error.message}`);
-        }
+    trpc.agents.remove.mutationOptions({
+      onSuccess: async () => {
+        await queryClient.invalidateQueries(trpc.agents.getMany.queryOptions({}));
+        router.push('/agents');
+      },
+      onError: (error) => {
+        toast.error(`Failed to remove agent: ${error.message}`);
       }
-    ),
+    })
   );
 
-  const [RemoveConfirmationDialog, confirmRemove] = useConfirm(
-    {
-      title: 'Confirm Agent Removal',
-      description: `The following action will remove ${data.meetingsCount} associated meetings. Are you sure you want to proceed?`
-    }
-  );
+  const [RemoveConfirmationDialog, confirmRemove] = useConfirm({
+    title: 'Confirm Agent Removal',
+    description: `The following action will remove ${data.meetingsCount} associated meetings. Are you sure you want to proceed?`
+  });
 
   const handleRemove = async () => {
     const confirmed = await confirmRemove();
@@ -50,7 +46,6 @@ export const AgentsDetailView = ({ agentId }: AgentsDetailViewProps) => {
     }
     await removeAgent.mutateAsync({ id: agentId });
   };
-
 
   return (
     <>
