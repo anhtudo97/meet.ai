@@ -26,6 +26,18 @@ export const AgentForm = ({ initialValues, onCancel, onSuccess }: AgentFormProps
     trpc.agents.create.mutationOptions({
       onSuccess: async () => {
         await queryClient.invalidateQueries(trpc.agents.getMany.queryOptions({}))
+        onSuccess?.()
+      },
+      onError: (error) => {
+        toast.error(`Failed to create agent: ${error.message}`)
+      }
+    })
+  )
+
+  const updateAgent = useMutation(
+    trpc.agents.update.mutationOptions({
+      onSuccess: async () => {
+        await queryClient.invalidateQueries(trpc.agents.getMany.queryOptions({}))
 
         if (initialValues?.id) {
           await queryClient.invalidateQueries(trpc.agents.getOne.queryOptions({ id: initialValues.id }))
@@ -49,12 +61,12 @@ export const AgentForm = ({ initialValues, onCancel, onSuccess }: AgentFormProps
   // Watch the name field
   const nameValue = useWatch({ control: form.control, name: 'name' })
 
-  const isEdit = !!initialValues?.id
-  const isPending = createAgent.isPending
+  const isUpdate = !!initialValues?.id
+  const isPending = createAgent.isPending || updateAgent.isPending
 
   const submitForm = async (data: z.infer<typeof agentsInsertSchema>) => {
-    if (isEdit) {
-      // Edit logic here
+    if (isUpdate) {
+      await updateAgent.mutateAsync({ id: initialValues!.id, ...data })
     } else {
       await createAgent.mutateAsync(data)
     }
@@ -98,7 +110,7 @@ export const AgentForm = ({ initialValues, onCancel, onSuccess }: AgentFormProps
             </Button>
           )}
           <Button type='submit' disabled={isPending}>
-            {isEdit ? 'Update Agent' : 'Create Agent'}
+            {isUpdate ? 'Update Agent' : 'Create Agent'}
           </Button>
         </div>
       </form>

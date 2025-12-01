@@ -1,16 +1,18 @@
 'use client';
 
 import ErrorState from '@/components/error-state';
+import GeneratedAvatar from '@/components/generated-avatar';
 import LoadingState from '@/components/loading-state';
+import { Badge } from '@/components/ui/badge';
+import { useConfirm } from '@/hooks/use-confirm';
 import { useTRPC } from '@/trpc/client';
 import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
-import { AgentsDetailViewHeader } from '../components/agents-detail-view-header';
-import GeneratedAvatar from '@/components/generated-avatar';
-import { Badge } from '@/components/ui/badge';
 import { VideoIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { toast } from 'sonner';
-import { useConfirm } from '@/hooks/use-confirm';
+import { AgentsDetailViewHeader } from '../components/agents-detail-view-header';
+import { UpdateAgentDialog } from '../components/update-agent-dialog';
 
 interface AgentsDetailViewProps {
   agentId: string;
@@ -20,6 +22,7 @@ export const AgentsDetailView = ({ agentId }: AgentsDetailViewProps) => {
   const router = useRouter();
   const trpc = useTRPC();
   const queryClient = useQueryClient();
+  const [updateAgentDialogOpen, setUpdateAgentDialogOpen] = useState(false);
   const { data, isLoading, error } = useSuspenseQuery(trpc.agents.getOne.queryOptions({ id: agentId }));
 
   const removeAgent = useMutation(
@@ -50,11 +53,16 @@ export const AgentsDetailView = ({ agentId }: AgentsDetailViewProps) => {
   return (
     <>
       <RemoveConfirmationDialog />
+      <UpdateAgentDialog
+        open={updateAgentDialogOpen}
+        onOpenChange={setUpdateAgentDialogOpen}
+        initialValues={data}
+      />
       <div className='flex-1 py-4 px-4 md:px-8 flex flex-col gap-y-4'>
         <AgentsDetailViewHeader
           agentId={agentId}
           agentName={data?.name || 'Agent Detail'}
-          onEdit={() => { }}
+          onEdit={() => setUpdateAgentDialogOpen(true)}
           onRemove={handleRemove}
         />
         <div className='bg-white rounded-lg border'>
