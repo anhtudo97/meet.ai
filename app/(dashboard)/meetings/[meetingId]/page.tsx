@@ -1,7 +1,5 @@
-import React from 'react';
+import React from 'react'
 
 export const Page = () => {
-  return (
-    <div>Meeting ID</div>
-  );
-};
+  return <div>Meeting ID</div>
+}

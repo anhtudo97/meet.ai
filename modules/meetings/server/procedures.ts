@@ -1,11 +1,11 @@
-import { DEFAULT_PAGE } from '@/constant';
-import { db } from '@/db';
-import { meetings } from '@/db/schema';
-import { createTRPCRouter, protectedProcedure } from '@/trpc/init';
-import { TRPCError } from '@trpc/server';
-import { and, count, desc, eq, getTableColumns, ilike, sql } from 'drizzle-orm';
-import z from 'zod';
-import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, MIN_PAGE_SIZE } from './../../../constant';
+import { DEFAULT_PAGE } from '@/constant'
+import { db } from '@/db'
+import { meetings } from '@/db/schema'
+import { createTRPCRouter, protectedProcedure } from '@/trpc/init'
+import { TRPCError } from '@trpc/server'
+import { and, count, desc, eq, getTableColumns, ilike, sql } from 'drizzle-orm'
+import z from 'zod'
+import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, MIN_PAGE_SIZE } from './../../../constant'
 
 export const meetingsRouter = createTRPCRouter({
   getMany: protectedProcedure
@@ -17,7 +17,7 @@ export const meetingsRouter = createTRPCRouter({
       })
     )
     .query(async ({ ctx, input }) => {
-      const { page, pageSize, search } = input;
+      const { page, pageSize, search } = input
       const data = await db
         .select({
           meetingsCount: sql<number>`7`,
@@ -27,20 +27,20 @@ export const meetingsRouter = createTRPCRouter({
         .where(and(eq(meetings.userId, ctx.auth.user.id), search ? ilike(meetings.name, `%${search}%`) : undefined))
         .orderBy(desc(meetings.createdAt), desc(meetings.id))
         .limit(pageSize)
-        .offset((page - 1) * pageSize);
+        .offset((page - 1) * pageSize)
       const [total] = await db
         .select({
           count: count()
         })
         .from(meetings)
-        .where(and(eq(meetings.userId, ctx.auth.user.id), search ? ilike(meetings.name, `%${search}%`) : undefined));
+        .where(and(eq(meetings.userId, ctx.auth.user.id), search ? ilike(meetings.name, `%${search}%`) : undefined))
 
-      const totalPages = Math.ceil(total.count / pageSize);
+      const totalPages = Math.ceil(total.count / pageSize)
       return {
         items: data,
         total: total.count,
         totalPages
-      };
+      }
     }),
 
   getOne: protectedProcedure.input(z.object({ id: z.string() })).query(async ({ ctx, input }) => {
@@ -49,15 +49,14 @@ export const meetingsRouter = createTRPCRouter({
         ...getTableColumns(meetings)
       })
       .from(meetings)
-      .where(and(eq(meetings.id, input.id), eq(meetings.userId, ctx.auth.user.id)));
+      .where(and(eq(meetings.id, input.id), eq(meetings.userId, ctx.auth.user.id)))
 
     if (!existingMeeting) {
       throw new TRPCError({
         code: 'NOT_FOUND',
         message: `Meeting with id ${input.id} not found`
-      });
+      })
     }
-    return existingMeeting;
-  }),
-
-});
+    return existingMeeting
+  })
+})
