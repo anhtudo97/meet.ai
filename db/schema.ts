@@ -1,5 +1,5 @@
-import { nanoid } from 'nanoid'
-import { pgTable, text, timestamp, boolean } from 'drizzle-orm/pg-core'
+import { nanoid } from 'nanoid';
+import { pgTable, text, timestamp, boolean, pgEnum } from 'drizzle-orm/pg-core';
 
 export const user = pgTable('user', {
   id: text('id').primaryKey(),
@@ -12,7 +12,7 @@ export const user = pgTable('user', {
     .defaultNow()
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull()
-})
+});
 
 export const session = pgTable('session', {
   id: text('id').primaryKey(),
@@ -27,7 +27,7 @@ export const session = pgTable('session', {
   userId: text('user_id')
     .notNull()
     .references(() => user.id, { onDelete: 'cascade' })
-})
+});
 
 export const account = pgTable('account', {
   id: text('id').primaryKey(),
@@ -47,7 +47,7 @@ export const account = pgTable('account', {
   updatedAt: timestamp('updated_at')
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull()
-})
+});
 
 export const verification = pgTable('verification', {
   id: text('id').primaryKey(),
@@ -59,7 +59,7 @@ export const verification = pgTable('verification', {
     .defaultNow()
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull()
-})
+});
 
 export const agents = pgTable('agents', {
   id: text('id')
@@ -72,4 +72,29 @@ export const agents = pgTable('agents', {
   instructions: text('instructions').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull()
-})
+});
+
+export const meetingStatus = pgEnum("meeting_status",
+  ["upcoming", "active", "completed", "cancelled", "processing"]
+);
+
+export const meetings = pgTable('meetings', {
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
+  name: text('name').notNull(),
+  userId: text('user_id')
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
+  agentId: text('agent_id')
+    .notNull()
+    .references(() => agents.id, { onDelete: 'cascade' }),
+  status: meetingStatus('status').default('upcoming').notNull(),
+  transcriptUrl: text('transcript_url'),
+  recordingUrl: text('recording_url'),
+  summary: text('summary'),
+  startedAt: timestamp('started_at'),
+  endedAt: timestamp('ended_at'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull()
+});
