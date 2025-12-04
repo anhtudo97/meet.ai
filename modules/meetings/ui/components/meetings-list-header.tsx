@@ -1,15 +1,15 @@
-'use client';
+'use client'
 
-import { Button } from '@/components/ui/button';
-import { PlusIcon } from 'lucide-react';
-import { useState } from 'react';
-import { NewMeetingDialog } from './new-meeting-dialog';
+import { Button } from '@/components/ui/button'
+import { PlusIcon } from 'lucide-react'
+import { useState } from 'react'
+import { NewMeetingDialog } from './new-meeting-dialog'
 
 export const MeetingsListHeader = () => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
   const handleOpenChange = (open: boolean) => {
-    setIsDialogOpen(open);
-  };
+    setIsDialogOpen(open)
+  }
 
   return (
     <>
@@ -32,5 +32,5 @@ export const MeetingsListHeader = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}

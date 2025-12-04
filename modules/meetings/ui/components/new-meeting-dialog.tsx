@@ -1,14 +1,14 @@
-import { ResponsiveDialog } from '@/components/responsive-dialog';
-import { MeetingForm } from './meeting-form';
-import { useRouter } from 'next/navigation';
+import { ResponsiveDialog } from '@/components/responsive-dialog'
+import { MeetingForm } from './meeting-form'
+import { useRouter } from 'next/navigation'
 
 interface NewAgentDialogProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
+  open: boolean
+  onOpenChange: (open: boolean) => void
 }
 
 export const NewMeetingDialog = ({ onOpenChange, open }: NewAgentDialogProps) => {
-  const router = useRouter();
+  const router = useRouter()
 
   return (
     <ResponsiveDialog
@@ -19,13 +19,13 @@ export const NewMeetingDialog = ({ onOpenChange, open }: NewAgentDialogProps) =>
     >
       <MeetingForm
         onSuccess={(id) => {
-          onOpenChange(false);
-          router.push(`/meetings/${id}`);
+          onOpenChange(false)
+          router.push(`/meetings/${id}`)
         }}
         onCancel={() => {
-          onOpenChange(false);
+          onOpenChange(false)
         }}
       />
     </ResponsiveDialog>
-  );
-};
+  )
+}
