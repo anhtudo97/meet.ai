@@ -70,9 +70,6 @@ export const MeetingForm = ({ initialValues, onCancel, onSuccess }: MeetingFormP
     }
   });
 
-  // Watch the name field
-  const nameValue = useWatch({ control: form.control, name: 'name' });
-
   const isUpdate = !!initialValues?.id;
   const isPending = createMeeting.isPending || updateMeeting.isPending;
 
@@ -149,7 +146,7 @@ export const MeetingForm = ({ initialValues, onCancel, onSuccess }: MeetingFormP
               </Button>
             )}
             <Button type='submit' disabled={isPending}>
-              {isUpdate ? 'Update Agent' : 'Create Agent'}
+              {isUpdate ? 'Update Meeting' : 'Create Meeting'}
             </Button>
           </div>
         </form>
