@@ -1,66 +1,66 @@
-import GeneratedAvatar from "@/components/generated-avatar";
-import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { useTRPC } from "@/trpc/client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useForm, useWatch } from "react-hook-form";
-import { toast } from "sonner";
-import z from "zod";
-import { meetingsInsertSchema } from "../../schema";
-import { MeetingGetOne } from "../../types";
-import { useState } from "react";
-import { CommandSelect } from "@/components/command-select";
-import { NewAgentDialog } from "@/modules/agents/ui/components/new-agent-dialog";
+import GeneratedAvatar from "@/components/generated-avatar"
+import { Button } from "@/components/ui/button"
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { useTRPC } from "@/trpc/client"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useForm, useWatch } from "react-hook-form"
+import { toast } from "sonner"
+import z from "zod"
+import { meetingsInsertSchema } from "../../schema"
+import { MeetingGetOne } from "../../types"
+import { useState } from "react"
+import { CommandSelect } from "@/components/command-select"
+import { NewAgentDialog } from "@/modules/agents/ui/components/new-agent-dialog"
 
 interface MeetingFormProps {
-  onSuccess?: (id: string) => void;
-  onCancel?: () => void;
-  initialValues?: MeetingGetOne;
+  onSuccess?: (id: string) => void
+  onCancel?: () => void
+  initialValues?: MeetingGetOne
 }
 
 export const MeetingForm = ({ initialValues, onCancel, onSuccess }: MeetingFormProps) => {
-  const trpc = useTRPC();
-  const queryClient = useQueryClient();
+  const trpc = useTRPC()
+  const queryClient = useQueryClient()
 
-  const [NewAgentDialogOpen, setNewAgentDialogOpen] = useState(false);
-  const [agentSearch, setAgentSearch] = useState("");
+  const [NewAgentDialogOpen, setNewAgentDialogOpen] = useState(false)
+  const [agentSearch, setAgentSearch] = useState("")
 
   const agents = useQuery(
     trpc.agents.getMany.queryOptions({
       pageSize: 100,
       search: agentSearch
     })
-  );
+  )
 
   const createMeeting = useMutation(
     trpc.meetings.create.mutationOptions({
       onSuccess: async (data) => {
-        await queryClient.invalidateQueries(trpc.meetings.getMany.queryOptions({}));
-        onSuccess?.(data.id);
+        await queryClient.invalidateQueries(trpc.meetings.getMany.queryOptions({}))
+        onSuccess?.(data.id)
       },
       onError: (error) => {
-        toast.error(`Failed to create agent: ${error.message}`);
+        toast.error(`Failed to create agent: ${error.message}`)
       }
     })
-  );
+  )
 
   const updateMeeting = useMutation(
     trpc.meetings.update.mutationOptions({
       onSuccess: async (data) => {
-        await queryClient.invalidateQueries(trpc.meetings.getMany.queryOptions({}));
+        await queryClient.invalidateQueries(trpc.meetings.getMany.queryOptions({}))
 
         if (initialValues?.id) {
-          await queryClient.invalidateQueries(trpc.meetings.getOne.queryOptions({ id: initialValues.id }));
+          await queryClient.invalidateQueries(trpc.meetings.getOne.queryOptions({ id: initialValues.id }))
         }
-        onSuccess?.(data.id);
+        onSuccess?.(data.id)
       },
       onError: (error) => {
-        toast.error(`Failed to create agent: ${error.message}`);
+        toast.error(`Failed to create agent: ${error.message}`)
       }
     })
-  );
+  )
 
   const form = useForm<z.infer<typeof meetingsInsertSchema>>({
     resolver: zodResolver(meetingsInsertSchema),
@@ -68,18 +68,18 @@ export const MeetingForm = ({ initialValues, onCancel, onSuccess }: MeetingFormP
       name: initialValues?.name ?? "",
       agentId: initialValues?.agentId ?? ""
     }
-  });
+  })
 
-  const isUpdate = !!initialValues?.id;
-  const isPending = createMeeting.isPending || updateMeeting.isPending;
+  const isUpdate = !!initialValues?.id
+  const isPending = createMeeting.isPending || updateMeeting.isPending
 
   const submitForm = async (data: z.infer<typeof meetingsInsertSchema>) => {
     if (isUpdate) {
-      await updateMeeting.mutateAsync({ id: initialValues!.id, ...data });
+      await updateMeeting.mutateAsync({ id: initialValues!.id, ...data })
     } else {
-      await createMeeting.mutateAsync(data);
+      await createMeeting.mutateAsync(data)
     }
-  };
+  }
 
   return (
     <>
@@ -152,5 +152,5 @@ export const MeetingForm = ({ initialValues, onCancel, onSuccess }: MeetingFormP
         </form>
       </Form>
     </>
-  );
-};
+  )
+}
