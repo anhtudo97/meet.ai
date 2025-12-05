@@ -1,6 +1,6 @@
-import { ResponsiveDialog } from '@/components/responsive-dialog'
-import { MeetingForm } from './meeting-form'
-import { useRouter } from 'next/navigation'
+import { ResponsiveDialog } from "@/components/responsive-dialog"
+import { MeetingForm } from "./meeting-form"
+import { useRouter } from "next/navigation"
 
 interface NewAgentDialogProps {
   open: boolean
@@ -12,8 +12,8 @@ export const NewMeetingDialog = ({ onOpenChange, open }: NewAgentDialogProps) =>
 
   return (
     <ResponsiveDialog
-      title='New Meeting'
-      description='Create a new meeting to schedule and manage your events.'
+      title="New Meeting"
+      description="Create a new meeting to schedule and manage your events."
       open={open}
       onOpenChange={onOpenChange}
     >

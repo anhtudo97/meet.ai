@@ -1,9 +1,9 @@
-'use client'
+"use client"
 
-import ErrorState from '@/components/error-state'
-import LoadingState from '@/components/loading-state'
-import { useTRPC } from '@/trpc/client'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import ErrorState from "@/components/error-state"
+import LoadingState from "@/components/loading-state"
+import { useTRPC } from "@/trpc/client"
+import { useSuspenseQuery } from "@tanstack/react-query"
 
 export const MeetingsView = () => {
   const trpc = useTRPC()
@@ -21,12 +21,12 @@ export const MeetingsView = () => {
 }
 
 export const MeetingsViewLoading = () => (
-  <LoadingState title='Loading Meetings' description='Please wait while we load the meetings for you.' />
+  <LoadingState title="Loading Meetings" description="Please wait while we load the meetings for you." />
 )
 
 export const MeetingsViewError = () => (
   <ErrorState
-    title='Error Loading Meetings'
-    description='There was an error loading the meetings. Please try again later.'
+    title="Error Loading Meetings"
+    description="There was an error loading the meetings. Please try again later."
   />
 )

@@ -1,20 +1,20 @@
-import { botttsNeutral, initials } from '@dicebear/collection'
-import { createAvatar } from '@dicebear/core'
-import { Avatar } from '@radix-ui/react-avatar'
-import { AvatarFallback, AvatarImage } from './ui/avatar'
-import { cn } from '@/lib/utils'
+import { botttsNeutral, initials } from "@dicebear/collection"
+import { createAvatar } from "@dicebear/core"
+import { Avatar } from "@radix-ui/react-avatar"
+import { AvatarFallback, AvatarImage } from "./ui/avatar"
+import { cn } from "@/lib/utils"
 
 interface GeneratedAvatarProps {
   // Define any props if needed
   seed: string
   className?: string
-  variant?: 'botttsNeutral' | 'initials'
+  variant?: "botttsNeutral" | "initials"
 }
 
 const GeneratedAvatar = ({ seed, className, variant }: GeneratedAvatarProps) => {
   let avatar
 
-  if (variant === 'botttsNeutral') {
+  if (variant === "botttsNeutral") {
     avatar = createAvatar(botttsNeutral, {
       seed
     })
@@ -27,8 +27,8 @@ const GeneratedAvatar = ({ seed, className, variant }: GeneratedAvatarProps) => 
   }
 
   return (
-    <Avatar className={cn('block [&>img]:rounded-full', className)}>
-      <AvatarImage src={avatar.toDataUri()} alt='Generated Avatar' />
+    <Avatar className={cn("block [&>img]:rounded-full", className)}>
+      <AvatarImage src={avatar.toDataUri()} alt="Generated Avatar" />
       <AvatarFallback>{seed.charAt(0).toUpperCase()}</AvatarFallback>
     </Avatar>
   )

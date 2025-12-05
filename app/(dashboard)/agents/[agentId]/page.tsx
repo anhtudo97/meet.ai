@@ -2,11 +2,11 @@ import {
   AgentsDetailView,
   AgentsDetailViewError,
   AgentsDetailViewLoading
-} from '@/modules/agents/ui/views/agents-detail-view'
-import { getQueryClient, trpc } from '@/trpc/server'
-import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
-import { Suspense } from 'react'
-import { ErrorBoundary } from 'react-error-boundary'
+} from "@/modules/agents/ui/views/agents-detail-view"
+import { getQueryClient, trpc } from "@/trpc/server"
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
+import { Suspense } from "react"
+import { ErrorBoundary } from "react-error-boundary"
 
 interface AgentPageProps {
   params: Promise<{ agentId: string }>

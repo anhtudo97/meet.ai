@@ -1,8 +1,8 @@
-import { db } from '@/db'
-import { betterAuth } from 'better-auth'
-import { drizzleAdapter } from 'better-auth/adapters/drizzle'
-import { nextCookies } from 'better-auth/next-js'
-import * as schema from '@/db/schema'
+import { db } from "@/db"
+import { betterAuth } from "better-auth"
+import { drizzleAdapter } from "better-auth/adapters/drizzle"
+import { nextCookies } from "better-auth/next-js"
+import * as schema from "@/db/schema"
 
 let authInstance: ReturnType<typeof betterAuth> | null = null
 
@@ -11,7 +11,7 @@ export const getAuth = async () => {
 
   authInstance = betterAuth({
     database: drizzleAdapter(db, {
-      provider: 'pg', // or "sqlite" or "mysql"
+      provider: "pg", // or "sqlite" or "mysql"
       schema: {
         ...schema
       }

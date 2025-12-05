@@ -1,6 +1,6 @@
-import { ResponsiveDialog } from '@/components/responsive-dialog'
-import { Button } from '@/components/ui/button'
-import { JSX, useState } from 'react'
+import { ResponsiveDialog } from "@/components/responsive-dialog"
+import { Button } from "@/components/ui/button"
+import { JSX, useState } from "react"
 
 interface UseConfirmProps {
   title: string
@@ -36,11 +36,11 @@ export const useConfirm = ({ title, description }: UseConfirmProps): [() => JSX.
 
   const ConfirmationDialog = () => (
     <ResponsiveDialog open={promise !== null} onOpenChange={handleClose} title={title} description={description}>
-      <div className='pt-4 w-full flex flex-col-reverse gap-y-2 lg:flex-row gap-x-2 items-center justify-end'>
-        <Button variant='outline' onClick={handleCancel} className='w-full lg:w-auto'>
+      <div className="pt-4 w-full flex flex-col-reverse gap-y-2 lg:flex-row gap-x-2 items-center justify-end">
+        <Button variant="outline" onClick={handleCancel} className="w-full lg:w-auto">
           Cancel
         </Button>
-        <Button variant='destructive' onClick={handleConfirm} className='w-full lg:w-auto'>
+        <Button variant="destructive" onClick={handleConfirm} className="w-full lg:w-auto">
           Confirm
         </Button>
       </div>

@@ -1,6 +1,6 @@
-import { ResponsiveDialog } from '@/components/responsive-dialog'
-import { MeetingGetOne } from '../../types'
-import { MeetingForm } from './meeting-form'
+import { ResponsiveDialog } from "@/components/responsive-dialog"
+import { MeetingGetOne } from "../../types"
+import { MeetingForm } from "./meeting-form"
 
 interface UpdateMeetingDialogProps {
   open: boolean
@@ -11,8 +11,8 @@ interface UpdateMeetingDialogProps {
 export const UpdateMeetingDialog = ({ onOpenChange, open, initialValues }: UpdateMeetingDialogProps) => {
   return (
     <ResponsiveDialog
-      title='Update Meeting'
-      description='Update the details of your meeting to manage your events effectively.'
+      title="Update Meeting"
+      description="Update the details of your meeting to manage your events effectively."
       open={open}
       onOpenChange={onOpenChange}
     >

@@ -1,12 +1,12 @@
-import { DEFAULT_PAGE } from '@/constant'
-import { db } from '@/db'
-import { meetings } from '@/db/schema'
-import { createTRPCRouter, protectedProcedure } from '@/trpc/init'
-import { TRPCError } from '@trpc/server'
-import { and, count, desc, eq, getTableColumns, ilike, sql } from 'drizzle-orm'
-import z from 'zod'
-import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, MIN_PAGE_SIZE } from './../../../constant'
-import { meetingsInsertSchema, meetingsUpdateSchema } from '../schema'
+import { DEFAULT_PAGE } from "@/constant"
+import { db } from "@/db"
+import { meetings } from "@/db/schema"
+import { createTRPCRouter, protectedProcedure } from "@/trpc/init"
+import { TRPCError } from "@trpc/server"
+import { and, count, desc, eq, getTableColumns, ilike, sql } from "drizzle-orm"
+import z from "zod"
+import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, MIN_PAGE_SIZE } from "./../../../constant"
+import { meetingsInsertSchema, meetingsUpdateSchema } from "../schema"
 
 export const meetingsRouter = createTRPCRouter({
   getMany: protectedProcedure
@@ -54,7 +54,7 @@ export const meetingsRouter = createTRPCRouter({
 
     if (!existingMeeting) {
       throw new TRPCError({
-        code: 'NOT_FOUND',
+        code: "NOT_FOUND",
         message: `Meeting with id ${input.id} not found`
       })
     }
@@ -80,7 +80,7 @@ export const meetingsRouter = createTRPCRouter({
       .returning()
     if (!updatedMeeting) {
       throw new TRPCError({
-        code: 'NOT_FOUND',
+        code: "NOT_FOUND",
         message: `Meeting with id ${input.id} not found`
       })
     }

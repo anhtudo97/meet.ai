@@ -1,9 +1,9 @@
-'use client'
+"use client"
 
-import { useIsMobile } from '@/hooks/use-mobile'
-import { PropsWithChildren } from 'react'
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from './ui/dialog'
-import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle } from './ui/drawer'
+import { useIsMobile } from "@/hooks/use-mobile"
+import { PropsWithChildren } from "react"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "./ui/dialog"
+import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle } from "./ui/drawer"
 
 interface ResponsiveDialogProps extends PropsWithChildren {
   title: string
@@ -24,7 +24,7 @@ export const ResponsiveDialog = ({ title, description, open, onOpenChange, child
             <DrawerTitle>{title}</DrawerTitle>
             <DrawerDescription>{description}</DrawerDescription>
           </DrawerHeader>
-          <div className='p-4'>{children}</div>
+          <div className="p-4">{children}</div>
         </DrawerContent>
       </Drawer>
     )

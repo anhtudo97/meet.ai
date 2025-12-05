@@ -1,15 +1,15 @@
-'use client'
+"use client"
 
-import ErrorState from '@/components/error-state'
-import LoadingState from '@/components/loading-state'
-import { useTRPC } from '@/trpc/client'
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { columns } from '../components/columns'
-import { DataTable } from '../components/data-table'
-import EmptyState from '@/components/empry-state'
-import { useAgentsFilters } from '../../hooks/use-agents-filters'
-import { DataPagination } from '../components/data-pagination'
-import { useRouter } from 'next/navigation'
+import ErrorState from "@/components/error-state"
+import LoadingState from "@/components/loading-state"
+import { useTRPC } from "@/trpc/client"
+import { useSuspenseQuery } from "@tanstack/react-query"
+import { columns } from "../components/columns"
+import { DataTable } from "../components/data-table"
+import EmptyState from "@/components/empry-state"
+import { useAgentsFilters } from "../../hooks/use-agents-filters"
+import { DataPagination } from "../components/data-pagination"
+import { useRouter } from "next/navigation"
 
 export const AgentsView = () => {
   const router = useRouter()
@@ -22,7 +22,7 @@ export const AgentsView = () => {
   }
 
   return (
-    <div className='flex-1 pb-4 px-4 md:px-8 flex flex-col gap-y-4'>
+    <div className="flex-1 pb-4 px-4 md:px-8 flex flex-col gap-y-4">
       {data.items.length > 0 && (
         <>
           <DataTable data={data.items} columns={columns} onRowClick={handleRowClick} />
@@ -34,19 +34,19 @@ export const AgentsView = () => {
         </>
       )}
       {data.items.length === 0 && (
-        <EmptyState title='No Agents Found' description='There are no agents available at the moment.' />
+        <EmptyState title="No Agents Found" description="There are no agents available at the moment." />
       )}
     </div>
   )
 }
 
 export const AgentsViewLoading = () => (
-  <LoadingState title='Loading Agents' description='Please wait while we load the agents for you.' />
+  <LoadingState title="Loading Agents" description="Please wait while we load the agents for you." />
 )
 
 export const AgentsViewError = () => (
   <ErrorState
-    title='Error Loading Agents'
-    description='There was an error loading the agents. Please try again later.'
+    title="Error Loading Agents"
+    description="There was an error loading the agents. Please try again later."
   />
 )
