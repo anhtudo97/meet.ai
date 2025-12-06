@@ -1,7 +1,7 @@
 "use client"
 
 import { DataTable } from "@/components/data-table"
-import EmptyState from "@/components/empry-state"
+import EmptyState from "@/components/empty-state"
 import ErrorState from "@/components/error-state"
 import LoadingState from "@/components/loading-state"
 import { useTRPC } from "@/trpc/client"
