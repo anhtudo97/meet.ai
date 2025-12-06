@@ -6,7 +6,7 @@ import { useMeetingsFilters } from "../../hooks/use-meetings-filters"
 export const MeetingsSearchFilter = () => {
   const [filters, setFilters] = useMeetingsFilters()
   return (
-    <div className="relative w-full">
+    <div className="relative">
       <Input
         placeholder="Search agents..."
         className="h-9 bg-white w-[200px] pl-7"
