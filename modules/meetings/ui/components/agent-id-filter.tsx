@@ -1,9 +1,9 @@
-import React, { use, useState } from "react"
-import { useMeetingsFilters } from "../../hooks/use-meetings-filters"
-import { useTRPC } from "@/trpc/client"
-import { useQuery } from "@tanstack/react-query"
 import { CommandSelect } from "@/components/command-select"
 import GeneratedAvatar from "@/components/generated-avatar"
+import { useTRPC } from "@/trpc/client"
+import { useQuery } from "@tanstack/react-query"
+import { useState } from "react"
+import { useMeetingsFilters } from "../../hooks/use-meetings-filters"
 
 export const AgentIdFilter = () => {
   const [filters, setFilters] = useMeetingsFilters()
