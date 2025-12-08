@@ -1,5 +1,5 @@
-import { ResponsiveDialog } from '@/components/responsive-dialog'
-import { AgentForm } from './agents-form'
+import { ResponsiveDialog } from "@/components/responsive-dialog"
+import { AgentForm } from "./agent-form"
 
 interface NewAgentDialogProps {
   open: boolean
@@ -9,8 +9,8 @@ interface NewAgentDialogProps {
 export const NewAgentDialog = ({ onOpenChange, open }: NewAgentDialogProps) => {
   return (
     <ResponsiveDialog
-      title='New Agent'
-      description='Create a new agent to automate tasks and workflows.'
+      title="New Agent"
+      description="Create a new agent to automate tasks and workflows."
       open={open}
       onOpenChange={onOpenChange}
     >

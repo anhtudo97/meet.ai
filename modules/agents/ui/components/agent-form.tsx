@@ -1,16 +1,16 @@
-import GeneratedAvatar from '@/components/generated-avatar'
-import { Button } from '@/components/ui/button'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { useTRPC } from '@/trpc/client'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useForm, useWatch } from 'react-hook-form'
-import { toast } from 'sonner'
-import z from 'zod'
-import { agentsInsertSchema } from '../../schema'
-import { AgentGetOne } from '../../types'
+import GeneratedAvatar from "@/components/generated-avatar"
+import { Button } from "@/components/ui/button"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { useTRPC } from "@/trpc/client"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useForm, useWatch } from "react-hook-form"
+import { toast } from "sonner"
+import z from "zod"
+import { agentsInsertSchema } from "../../schema"
+import { AgentGetOne } from "../../types"
 
 interface AgentFormProps {
   onSuccess?: () => void
@@ -53,13 +53,13 @@ export const AgentForm = ({ initialValues, onCancel, onSuccess }: AgentFormProps
   const form = useForm<z.infer<typeof agentsInsertSchema>>({
     resolver: zodResolver(agentsInsertSchema),
     defaultValues: {
-      name: initialValues?.name ?? '',
-      instructions: initialValues?.instructions ?? ''
+      name: initialValues?.name ?? "",
+      instructions: initialValues?.instructions ?? ""
     }
   })
 
   // Watch the name field
-  const nameValue = useWatch({ control: form.control, name: 'name' })
+  const nameValue = useWatch({ control: form.control, name: "name" })
 
   const isUpdate = !!initialValues?.id
   const isPending = createAgent.isPending || updateAgent.isPending
@@ -74,11 +74,11 @@ export const AgentForm = ({ initialValues, onCancel, onSuccess }: AgentFormProps
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(submitForm)} className='space-y-4'>
-        <GeneratedAvatar seed={nameValue} variant='botttsNeutral' className='size-16' />
+      <form onSubmit={form.handleSubmit(submitForm)} className="space-y-4">
+        <GeneratedAvatar seed={nameValue} variant="botttsNeutral" className="size-16" />
         <FormField
           control={form.control}
-          name='name'
+          name="name"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Name</FormLabel>
@@ -91,7 +91,7 @@ export const AgentForm = ({ initialValues, onCancel, onSuccess }: AgentFormProps
         />
         <FormField
           control={form.control}
-          name='instructions'
+          name="instructions"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Instructions</FormLabel>
@@ -103,14 +103,14 @@ export const AgentForm = ({ initialValues, onCancel, onSuccess }: AgentFormProps
           )}
         />
 
-        <div className='flex justify-between gap-x-2'>
+        <div className="flex justify-between gap-x-2">
           {onCancel && (
-            <Button onClick={onCancel} type='button' variant={'ghost'} disabled={isPending}>
+            <Button onClick={onCancel} type="button" variant={"ghost"} disabled={isPending}>
               Cancel
             </Button>
           )}
-          <Button type='submit' disabled={isPending}>
-            {isUpdate ? 'Update Agent' : 'Create Agent'}
+          <Button type="submit" disabled={isPending}>
+            {isUpdate ? "Update Agent" : "Create Agent"}
           </Button>
         </div>
       </form>
