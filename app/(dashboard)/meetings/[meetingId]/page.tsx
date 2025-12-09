@@ -9,19 +9,19 @@ import { Suspense } from "react"
 import { ErrorBoundary } from "react-error-boundary"
 
 interface MeetingDetailPageProps {
-  params: Promise<{ agentId: string }>
+  params: Promise<{ meetingId: string }>
 }
 
 export const Page = async ({ params }: MeetingDetailPageProps) => {
-  const { agentId } = await params
+  const { meetingId } = await params
   const queryClient = getQueryClient()
-  void queryClient.prefetchQuery(trpc.agents.getOne.queryOptions({ id: agentId }))
+  void queryClient.prefetchQuery(trpc.meetings.getOne.queryOptions({ id: meetingId }))
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Suspense fallback={<MeetingsDetailViewLoading />}>
         <ErrorBoundary fallback={<MeetingsDetailViewError />}>
-          <MeetingDetailView meetingId={agentId} />
+          <MeetingDetailView meetingId={meetingId} />
         </ErrorBoundary>
       </Suspense>
     </HydrationBoundary>

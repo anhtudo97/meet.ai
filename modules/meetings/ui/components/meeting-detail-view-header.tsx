@@ -49,11 +49,11 @@ export const MeetingDetailViewHeader = ({ meetingId, meetingName, onEdit, onRemo
         <DropdownMenuContent align="end">
           <DropdownMenuItem onClick={onEdit}>
             <PencilIcon className="size-4 text-black" />
-            Edit Agent
+            Update Meeting
           </DropdownMenuItem>
           <DropdownMenuItem onClick={onRemove}>
             <TrashIcon className="size-4 text-black" />
-            Remove Agent
+            Remove Meeting
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
