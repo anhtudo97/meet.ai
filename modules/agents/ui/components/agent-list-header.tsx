@@ -6,10 +6,10 @@ import { DEFAULT_PAGE } from "@/constant"
 import { PlusIcon, XCircleIcon } from "lucide-react"
 import { useState } from "react"
 import { useAgentsFilters } from "../../hooks/use-agents-filters"
-import { AgentsSearchFilter } from "./agents-search-filter"
+import { AgentSearchFilter } from "./agent-search-filter"
 import { NewAgentDialog } from "./new-agent-dialog"
 
-export const AgentsListHeader = () => {
+export const AgentListHeader = () => {
   const [filters, setFilters] = useAgentsFilters()
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const handleOpenChange = (open: boolean) => {
@@ -35,7 +35,7 @@ export const AgentsListHeader = () => {
         </div>
         <ScrollArea>
           <div className="flex items-center gap-x-2 p-1">
-            <AgentsSearchFilter />
+            <AgentSearchFilter />
             {isAnyFilterModified && (
               <Button variant="outline" size={"sm"} onClick={onClearFilters}>
                 <XCircleIcon />

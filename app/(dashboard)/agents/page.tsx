@@ -1,14 +1,14 @@
-import { auth } from '@/lib/auth'
-import { loadSearchParams } from '@/modules/agents/params'
-import { AgentsListHeader } from '@/modules/agents/ui/components/agents-list-header'
-import { AgentsView, AgentsViewError, AgentsViewLoading } from '@/modules/agents/ui/views/agents-view'
-import { getQueryClient, trpc } from '@/trpc/server'
-import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
-import { headers } from 'next/headers'
-import { redirect } from 'next/navigation'
-import { SearchParams } from 'nuqs'
-import { Suspense } from 'react'
-import { ErrorBoundary } from 'react-error-boundary'
+import { auth } from "@/lib/auth"
+import { loadSearchParams } from "@/modules/agents/params"
+import { AgentListHeader } from "@/modules/agents/ui/components/agent-list-header"
+import { AgentsView, AgentsViewError, AgentsViewLoading } from "@/modules/agents/ui/views/agents-view"
+import { getQueryClient, trpc } from "@/trpc/server"
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
+import { headers } from "next/headers"
+import { redirect } from "next/navigation"
+import { SearchParams } from "nuqs"
+import { Suspense } from "react"
+import { ErrorBoundary } from "react-error-boundary"
 
 interface PageProps {
   searchParams: Promise<SearchParams>
@@ -22,7 +22,7 @@ const Page = async ({ searchParams }: PageProps) => {
   })
 
   if (!session) {
-    redirect('/sign-in')
+    redirect("/sign-in")
   }
 
   const queryClient = getQueryClient()
@@ -30,7 +30,7 @@ const Page = async ({ searchParams }: PageProps) => {
 
   return (
     <>
-      <AgentsListHeader />
+      <AgentListHeader />
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Suspense fallback={<AgentsViewLoading />}>
           <ErrorBoundary fallback={<AgentsViewError />}>
