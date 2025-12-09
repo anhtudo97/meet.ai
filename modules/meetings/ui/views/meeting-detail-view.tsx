@@ -9,6 +9,7 @@ import { useState } from "react"
 import { MeetingDetailViewHeader } from "../components/meeting-detail-view-header"
 import { useConfirm } from "@/hooks/use-confirm"
 import { toast } from "sonner"
+import { UpdateMeetingDialog } from "../components/update-meeting-dialog"
 
 interface MeetingDetailViewProps {
   meetingId: string
@@ -47,15 +48,23 @@ export const MeetingDetailView = ({ meetingId }: MeetingDetailViewProps) => {
   }
 
   return (
-    <div className="flex-1 py-4 px-4 md:px-8 flex flex-col gap-y-4">
-      <MeetingDetailViewHeader
-        meetingId={meetingId}
-        meetingName={data?.name ?? ""}
-        onEdit={() => setUpdateMeetingDialogOpen(true)}
-        onRemove={handleRemove}
+    <>
+      <RemoveConfirmationDialog />
+      <UpdateMeetingDialog
+        open={updateMeetingDialogOpen}
+        onOpenChange={setUpdateMeetingDialogOpen}
+        initialValues={data}
       />
-      MeetingDetailView
-    </div>
+      <div className="flex-1 py-4 px-4 md:px-8 flex flex-col gap-y-4">
+        <MeetingDetailViewHeader
+          meetingId={meetingId}
+          meetingName={data?.name ?? ""}
+          onEdit={() => setUpdateMeetingDialogOpen(true)}
+          onRemove={handleRemove}
+        />
+        MeetingDetailView
+      </div>
+    </>
   )
 }
 

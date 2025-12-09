@@ -8,11 +8,11 @@ import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 import { Suspense } from "react"
 import { ErrorBoundary } from "react-error-boundary"
 
-interface AgentPageProps {
+interface MeetingDetailPageProps {
   params: Promise<{ agentId: string }>
 }
 
-export const Page = async ({ params }: AgentPageProps) => {
+export const Page = async ({ params }: MeetingDetailPageProps) => {
   const { agentId } = await params
   const queryClient = getQueryClient()
   void queryClient.prefetchQuery(trpc.agents.getOne.queryOptions({ id: agentId }))
