@@ -1,15 +1,19 @@
 "use client"
 
+import { ActiveState } from "@/components/active-state"
+import { CancelledState } from "@/components/cancelled-state"
 import ErrorState from "@/components/error-state"
 import LoadingState from "@/components/loading-state"
+import { UpcomingState } from "@/components/upcoming-state"
+import { useConfirm } from "@/hooks/use-confirm"
 import { useTRPC } from "@/trpc/client"
 import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import { MeetingDetailViewHeader } from "../components/meeting-detail-view-header"
-import { useConfirm } from "@/hooks/use-confirm"
 import { toast } from "sonner"
+import { MeetingDetailViewHeader } from "../components/meeting-detail-view-header"
 import { UpdateMeetingDialog } from "../components/update-meeting-dialog"
+import { ProcessingState } from "@/components/processing-state"
 
 interface MeetingDetailViewProps {
   meetingId: string
@@ -47,6 +51,12 @@ export const MeetingDetailView = ({ meetingId }: MeetingDetailViewProps) => {
     await removeMeeting.mutateAsync({ id: meetingId })
   }
 
+  const isActive = data?.status === "active"
+  const isUpcoming = data?.status === "upcoming"
+  const isCompleted = data?.status === "completed"
+  const isCancelled = data?.status === "cancelled"
+  const isProcessing = data?.status === "processing"
+
   return (
     <>
       <RemoveConfirmationDialog />
@@ -62,7 +72,11 @@ export const MeetingDetailView = ({ meetingId }: MeetingDetailViewProps) => {
           onEdit={() => setUpdateMeetingDialogOpen(true)}
           onRemove={handleRemove}
         />
-        MeetingDetailView
+        {isActive && <ActiveState meetingId={meetingId} />}
+        {isCompleted && <div>Meeting has been completed.</div>}
+        {isCancelled && <CancelledState />}
+        {isProcessing && <ProcessingState />}
+        {isUpcoming && <UpcomingState meetingId={meetingId} onCancelMeeting={() => {}} isCancelling={false} />}
       </div>
     </>
   )
