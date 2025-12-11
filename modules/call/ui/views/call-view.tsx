@@ -1,7 +1,10 @@
+"use client"
+
 import ErrorState from "@/components/error-state"
 import { useTRPC } from "@/trpc/client"
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
+import { CallProvider } from "../components/call-provider"
 
 interface CallViewProps {
   // Define any props if needed
@@ -22,5 +25,5 @@ export const CallView = ({ meetingId }: CallViewProps) => {
     )
   }
 
-  return <div>CallView</div>
+  return <CallProvider meetingId={meetingId} meetingName={data.name} />
 }
