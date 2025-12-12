@@ -45,7 +45,6 @@ export const CallConnect = ({ meetingId, meetingName, userId, userName, userImag
   }, [client, meetingId])
 
   useEffect(() => {
-    console.log("Call state changed", client, call)
     return () => {
       if (call?.state.callingState !== CallingState.LEFT) {
         call?.leave()
