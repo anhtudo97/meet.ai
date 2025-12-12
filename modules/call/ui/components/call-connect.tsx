@@ -1,11 +1,11 @@
 "use client"
 
 import { useTRPC } from "@/trpc/client"
-import { Call, CallingState, StreamCall, StreamVideo, StreamVideoClient } from "@stream-io/video-react-sdk"
+import { CallingState, StreamCall, StreamVideo, StreamVideoClient } from "@stream-io/video-react-sdk"
 import "@stream-io/video-react-sdk/dist/css/styles.css"
 import { useMutation } from "@tanstack/react-query"
 import { Loader2Icon } from "lucide-react"
-import { use, useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo } from "react"
 import { CallUI } from "./call-ui"
 
 interface CallConnectProps {
@@ -21,8 +21,12 @@ export const CallConnect = ({ meetingId, meetingName, userId, userName, userImag
   const { mutateAsync: generateToken } = useMutation(trpc.meetings.generateToken.mutationOptions())
 
   const client = useMemo(() => {
+    const apiKey = process.env.NEXT_PUBLIC_STREAM_VIDEO_API_KEY
+    if (!apiKey) {
+      throw new Error("Stream API key (NEXT_PUBLIC_STREAM_VIDEO_API_KEY) is not set in environment variables.")
+    }
     return StreamVideoClient.getOrCreateInstance({
-      apiKey: process.env.NEXT_PUBLIC_STREAM_VIDEO_API_KEY!,
+      apiKey,
       user: {
         id: userId,
         name: userName,

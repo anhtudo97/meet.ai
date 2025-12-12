@@ -2,7 +2,6 @@ import { createAvatar } from "@dicebear/core"
 import { botttsNeutral, initials } from "@dicebear/collection"
 
 interface Props {
-  // Define any props if needed
   seed: string
   variant?: "botttsNeutral" | "initials"
 }
@@ -16,7 +15,7 @@ export const generatedAvatarUri = ({ seed, variant }: Props) => {
     })
   } else {
     avatar = createAvatar(initials, {
-      seed: seed,
+      seed,
       size: 42,
       fontWeight: 500,
       radius: 50
