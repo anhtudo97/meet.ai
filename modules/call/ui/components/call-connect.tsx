@@ -5,7 +5,7 @@ import { CallingState, StreamCall, StreamVideo, StreamVideoClient } from "@strea
 import "@stream-io/video-react-sdk/dist/css/styles.css"
 import { useMutation } from "@tanstack/react-query"
 import { Loader2Icon } from "lucide-react"
-import { useEffect, useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { CallUI } from "./call-ui"
 
 interface CallConnectProps {
@@ -17,16 +17,15 @@ interface CallConnectProps {
 }
 
 export const CallConnect = ({ meetingId, meetingName, userId, userName, userImage }: CallConnectProps) => {
+  "use no memo"
+
   const trpc = useTRPC()
   const { mutateAsync: generateToken } = useMutation(trpc.meetings.generateToken.mutationOptions())
 
-  const client = useMemo(() => {
-    const apiKey = process.env.NEXT_PUBLIC_STREAM_VIDEO_API_KEY
-    if (!apiKey) {
-      throw new Error("Stream API key (NEXT_PUBLIC_STREAM_VIDEO_API_KEY) is not set in environment variables.")
-    }
-    return StreamVideoClient.getOrCreateInstance({
-      apiKey,
+  const [client, setClient] = useState<StreamVideoClient>()
+  useEffect(() => {
+    const _client = StreamVideoClient.getOrCreateInstance({
+      apiKey: process.env.NEXT_PUBLIC_STREAM_VIDEO_API_KEY!,
       user: {
         id: userId,
         name: userName,
@@ -34,7 +33,34 @@ export const CallConnect = ({ meetingId, meetingName, userId, userName, userImag
       },
       tokenProvider: generateToken
     })
-  }, [userId, userName, userImage, generateToken])
+    setClient(_client)
+
+    return () => {
+      _client?.disconnectUser()
+    }
+  }, [])
+
+  // const client = useMemo(() => {
+  //   const apiKey = process.env.NEXT_PUBLIC_STREAM_VIDEO_API_KEY;
+  //   if (!apiKey) {
+  //     throw new Error("Stream API key (NEXT_PUBLIC_STREAM_VIDEO_API_KEY) is not set in environment variables.");
+  //   }
+  //   return StreamVideoClient.getOrCreateInstance({
+  //     apiKey,
+  //     user: {
+  //       id: userId,
+  //       name: userName,
+  //       image: userImage
+  //     },
+  //     tokenProvider: generateToken
+  //   });
+  // }, [userId, userName, userImage, generateToken]);
+
+  // useEffect(() => {
+  //   return () => {
+  //     client?.disconnectUser();
+  //   };
+  // }, [client]);
 
   const call = useMemo(() => {
     if (!client) return null
@@ -51,7 +77,7 @@ export const CallConnect = ({ meetingId, meetingName, userId, userName, userImag
         call?.endCall()
       }
 
-      client.disconnectUser()
+      client?.disconnectUser()
     }
   }, [client, call])
 
