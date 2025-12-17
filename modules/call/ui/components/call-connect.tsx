@@ -17,14 +17,12 @@ interface CallConnectProps {
 }
 
 export const CallConnect = ({ meetingId, meetingName, userId, userName, userImage }: CallConnectProps) => {
-  "use no memo"
-
   const trpc = useTRPC()
   const { mutateAsync: generateToken } = useMutation(trpc.meetings.generateToken.mutationOptions())
 
   const [client, setClient] = useState<StreamVideoClient>()
   useEffect(() => {
-    const _client = StreamVideoClient.getOrCreateInstance({
+    const _client = new StreamVideoClient({
       apiKey: process.env.NEXT_PUBLIC_STREAM_VIDEO_API_KEY!,
       user: {
         id: userId,
@@ -37,6 +35,7 @@ export const CallConnect = ({ meetingId, meetingName, userId, userName, userImag
 
     return () => {
       _client?.disconnectUser()
+      setClient(undefined)
     }
   }, [generateToken, userId, userImage, userName])
 
@@ -48,7 +47,6 @@ export const CallConnect = ({ meetingId, meetingName, userId, userName, userImag
     const _call = client.call("default", meetingId)
     _call.camera.disable()
     _call.microphone.disable()
-    _call.join()
     setCall(_call)
 
     return () => {

@@ -10,8 +10,8 @@ function verifySignatureWithSDK(body: string, signature: string): boolean {
 }
 
 export async function POST(req: NextRequest) {
-  const signature = req.headers.get("x-signature") || ""
-  const apiKey = req.headers.get("x-api-key") || ""
+  const signature = req.headers.get("x-signature")
+  const apiKey = req.headers.get("x-api-key")
 
   if (!signature || !apiKey) {
     return NextResponse.json({ error: "Missing required headers." }, { status: 400 })
@@ -71,15 +71,18 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Associated agent not found." }, { status: 404 })
     }
 
+    console.log("Real-time AI client connected for meeting:", meetingId)
     const call = streamVideo.video.call("default", meetingId)
     const realtimeClient = await streamVideo.video.connectOpenAi({
       call,
       openAiApiKey: process.env.OPENAI_API_KEY!,
-      agentUserId: existingAgent.id
+      agentUserId: existingAgent.id,
+      model: "gpt-4o-realtime-preview"
     })
 
     realtimeClient.updateSession({
-      instructions: existingAgent.instructions
+      instructions: existingAgent.instructions,
+      voice: "alloy"
     })
   } else if (eventType === "call.session_participant_left") {
     const event = payload as CallSessionParticipantLeftEvent

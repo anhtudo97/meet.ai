@@ -3,7 +3,7 @@ import { db } from "@/db"
 import { agents, meetings } from "@/db/schema"
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init"
 import { TRPCError } from "@trpc/server"
-import { and, count, desc, eq, getTableColumns, ilike, sql } from "drizzle-orm"
+import { and, count, desc, eq, getTableColumns, ilike, is, sql } from "drizzle-orm"
 import z from "zod"
 import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, MIN_PAGE_SIZE } from "./../../../constant"
 import { meetingsInsertSchema, meetingsUpdateSchema } from "../schema"
@@ -22,13 +22,13 @@ export const meetingsRouter = createTRPCRouter({
       }
     ])
 
-    const expiresIn = Math.floor(Date.now() / 1000) + 3600 // 1 hour
-    const issuedAt = Math.floor(Date.now() / 1000) - 60
+    const expiresIn = Math.floor(Date.now() / 1000) + 60 * 60 * 2 // 2 hours
+    const issuedAt = Math.floor(Date.now() / 1000) - 1 * 60 // 1 minute ago
 
     const token = streamVideo.generateUserToken({
       user_id: ctx.auth.user.id,
       exp: expiresIn,
-      // validity_in_seconds: 3600,
+      // validity_in_seconds: issuedAt,
       iat: issuedAt
     })
 
@@ -132,7 +132,7 @@ export const meetingsRouter = createTRPCRouter({
         created_by_id: ctx.auth.user.id,
         custom: {
           meetingId: createdMeeting.id,
-          meeting_name: createdMeeting.name
+          meetingName: createdMeeting.name
         },
         settings_override: {
           transcription: {
