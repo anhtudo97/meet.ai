@@ -1,12 +1,13 @@
 "use client"
 
 import { useTRPC } from "@/trpc/client"
-import { CallingState, StreamCall, StreamVideo, StreamVideoClient } from "@stream-io/video-react-sdk"
-import "@stream-io/video-react-sdk/dist/css/styles.css"
+import { Call, CallingState, StreamCall, StreamVideo, StreamVideoClient } from "@stream-io/video-react-sdk"
 import { useMutation } from "@tanstack/react-query"
 import { Loader2Icon } from "lucide-react"
-import { useEffect, useMemo } from "react"
+import { useEffect, useState } from "react"
 import { CallUI } from "./call-ui"
+
+import "@stream-io/video-react-sdk/dist/css/styles.css"
 
 interface CallConnectProps {
   meetingId: string
@@ -20,13 +21,10 @@ export const CallConnect = ({ meetingId, meetingName, userId, userName, userImag
   const trpc = useTRPC()
   const { mutateAsync: generateToken } = useMutation(trpc.meetings.generateToken.mutationOptions())
 
-  const client = useMemo(() => {
-    const apiKey = process.env.NEXT_PUBLIC_STREAM_VIDEO_API_KEY
-    if (!apiKey) {
-      throw new Error("Stream API key (NEXT_PUBLIC_STREAM_VIDEO_API_KEY) is not set in environment variables.")
-    }
-    return StreamVideoClient.getOrCreateInstance({
-      apiKey,
+  const [client, setClient] = useState<StreamVideoClient>()
+  useEffect(() => {
+    const _client = new StreamVideoClient({
+      apiKey: process.env.NEXT_PUBLIC_STREAM_VIDEO_API_KEY!,
       user: {
         id: userId,
         name: userName,
@@ -34,26 +32,32 @@ export const CallConnect = ({ meetingId, meetingName, userId, userName, userImag
       },
       tokenProvider: generateToken
     })
-  }, [userId, userName, userImage, generateToken])
+    setClient(_client)
 
-  const call = useMemo(() => {
-    if (!client) return null
+    return () => {
+      _client?.disconnectUser()
+      setClient(undefined)
+    }
+  }, [generateToken, userId, userImage, userName])
+
+  const [call, setCall] = useState<Call>()
+
+  useEffect(() => {
+    if (!client) return
+
     const _call = client.call("default", meetingId)
     _call.camera.disable()
     _call.microphone.disable()
-    return _call
-  }, [client, meetingId])
+    setCall(_call)
 
-  useEffect(() => {
     return () => {
-      if (call?.state.callingState !== CallingState.LEFT) {
-        call?.leave()
-        call?.endCall()
+      if (_call.state.callingState !== CallingState.LEFT) {
+        _call.leave()
+        _call.endCall()
+        setCall(undefined)
       }
-
-      client.disconnectUser()
     }
-  }, [client, call])
+  }, [client, meetingId])
 
   if (!client || !call) {
     return (

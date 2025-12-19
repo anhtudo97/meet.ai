@@ -12,17 +12,17 @@ export const CallUI = ({ meetingName }: CallUIProps) => {
   const call = useCall()
   const [show, setShow] = useState<"lobby" | "call" | "ended">("lobby")
 
-  const handleJoin = () => {
+  const handleJoin = async () => {
     if (!call) return
 
-    call.join()
+    await call.join()
     setShow("call")
   }
 
-  const handleLeave = () => {
+  const handleLeave = async () => {
     if (!call) return
 
-    call.endCall()
+    await call.endCall()
     setShow("ended")
   }
 
