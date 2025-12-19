@@ -1,15 +1,15 @@
 import { DEFAULT_PAGE } from "@/constant"
 import { db } from "@/db"
 import { agents, meetings } from "@/db/schema"
+import { generatedAvatarUri } from "@/lib/avatar"
+import { streamVideo } from "@/lib/stream-video"
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init"
 import { TRPCError } from "@trpc/server"
-import { and, count, desc, eq, getTableColumns, ilike, is, sql } from "drizzle-orm"
+import { and, count, desc, eq, getTableColumns, ilike, sql } from "drizzle-orm"
 import z from "zod"
-import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, MIN_PAGE_SIZE } from "./../../../constant"
 import { meetingsInsertSchema, meetingsUpdateSchema } from "../schema"
 import { MeetingStatus } from "../types"
-import { streamVideo } from "@/lib/stream-video"
-import { generatedAvatarUri } from "@/lib/avatar"
+import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, MIN_PAGE_SIZE } from "./../../../constant"
 
 export const meetingsRouter = createTRPCRouter({
   generateToken: protectedProcedure.mutation(async ({ ctx }) => {

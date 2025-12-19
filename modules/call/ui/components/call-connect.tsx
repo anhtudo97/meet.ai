@@ -2,11 +2,12 @@
 
 import { useTRPC } from "@/trpc/client"
 import { Call, CallingState, StreamCall, StreamVideo, StreamVideoClient } from "@stream-io/video-react-sdk"
-import "@stream-io/video-react-sdk/dist/css/styles.css"
 import { useMutation } from "@tanstack/react-query"
 import { Loader2Icon } from "lucide-react"
-import { use, useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import { CallUI } from "./call-ui"
+
+import "@stream-io/video-react-sdk/dist/css/styles.css"
 
 interface CallConnectProps {
   meetingId: string
