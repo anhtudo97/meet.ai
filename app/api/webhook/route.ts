@@ -1,9 +1,13 @@
 import { db } from "@/db"
 import { agents, meetings } from "@/db/schema"
 import { streamVideo } from "@/lib/stream-video"
-import { CallSessionParticipantLeftEvent, CallSessionStartedEvent } from "@stream-io/node-sdk"
+import { CallSessionEndedEvent, CallSessionStartedEvent } from "@stream-io/node-sdk"
+import { RealtimeClient } from "@stream-io/openai-realtime-api"
 import { and, eq, not } from "drizzle-orm"
 import { NextRequest, NextResponse } from "next/server"
+
+// Track active realtime clients by meeting ID for proper cleanup
+const realtimeClients = new Map<string, RealtimeClient>()
 
 function verifySignatureWithSDK(body: string, signature: string): boolean {
   return streamVideo.verifyWebhook(body, signature)
@@ -84,9 +88,25 @@ export async function POST(req: NextRequest) {
       instructions: existingAgent.instructions,
       voice: "alloy"
     })
-  } else if (eventType === "call.session_participant_left") {
-    const event = payload as CallSessionParticipantLeftEvent
+
+    // Store the client reference for later cleanup
+    realtimeClients.set(meetingId, realtimeClient)
+  } else if (eventType === "call.session_ended") {
+    const event = payload as CallSessionEndedEvent
     const meetingId = event.call_cid.split(":")[1]
+
+    // Disconnect and cleanup the realtime client if it exists
+    const realtimeClient = realtimeClients.get(meetingId)
+    if (realtimeClient) {
+      try {
+        realtimeClient.disconnect()
+        console.log("Real-time AI client disconnected for meeting:", meetingId)
+      } catch (error) {
+        console.error("Error disconnecting realtime client:", error)
+      } finally {
+        realtimeClients.delete(meetingId)
+      }
+    }
 
     const call = streamVideo.video.call("default", meetingId)
     await call.end()
