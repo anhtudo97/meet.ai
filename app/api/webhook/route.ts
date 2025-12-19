@@ -1,7 +1,7 @@
 import { db } from "@/db"
 import { agents, meetings } from "@/db/schema"
 import { streamVideo } from "@/lib/stream-video"
-import { CallSessionParticipantLeftEvent, CallSessionStartedEvent } from "@stream-io/node-sdk"
+import { CallSessionEndedEvent, CallSessionStartedEvent } from "@stream-io/node-sdk"
 import { RealtimeClient } from "@stream-io/openai-realtime-api"
 import { and, eq, not } from "drizzle-orm"
 import { NextRequest, NextResponse } from "next/server"
@@ -91,8 +91,8 @@ export async function POST(req: NextRequest) {
 
     // Store the client reference for later cleanup
     realtimeClients.set(meetingId, realtimeClient)
-  } else if (eventType === "call.session_participant_left") {
-    const event = payload as CallSessionParticipantLeftEvent
+  } else if (eventType === "call.session_ended") {
+    const event = payload as CallSessionEndedEvent
     const meetingId = event.call_cid.split(":")[1]
 
     // Disconnect and cleanup the realtime client if it exists
