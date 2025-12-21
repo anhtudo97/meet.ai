@@ -1,6 +1,11 @@
-import { clsx, type ClassValue } from 'clsx'
-import { twMerge } from 'tailwind-merge'
+import { clsx, type ClassValue } from "clsx"
+import humanizeDuration from "humanize-duration"
+import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
+}
+
+export const formatDuration = (durationMs: number) => {
+  return humanizeDuration(durationMs * 1000, { largest: 1, round: true, units: ["h", "m", "s"] })
 }

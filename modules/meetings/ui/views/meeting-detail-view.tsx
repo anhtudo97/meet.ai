@@ -14,6 +14,7 @@ import { toast } from "sonner"
 import { MeetingDetailViewHeader } from "../components/meeting-detail-view-header"
 import { UpdateMeetingDialog } from "../components/update-meeting-dialog"
 import { ProcessingState } from "@/components/processing-state"
+import { CompletedState } from "../components/completed-state"
 
 interface MeetingDetailViewProps {
   meetingId: string
@@ -73,7 +74,7 @@ export const MeetingDetailView = ({ meetingId }: MeetingDetailViewProps) => {
           onRemove={handleRemove}
         />
         {isActive && <ActiveState meetingId={meetingId} />}
-        {isCompleted && <div>Meeting has been completed.</div>}
+        {isCompleted && <CompletedState data={data} />}
         {isCancelled && <CancelledState />}
         {isProcessing && <ProcessingState />}
         {isUpcoming && <UpcomingState meetingId={meetingId} onCancelMeeting={() => {}} isCancelling={false} />}
